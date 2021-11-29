@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-const mongoURI = toString(process.env.DBURI);
+dotenv.config();
+
+// const mongoURI = toString(process.env.DB_URI);
+const mongoURI=""+process.env.DB_URI
 
 const connectToMongo = () => {
     mongoose.connect(mongoURI, () => {

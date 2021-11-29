@@ -15,7 +15,12 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    father: {
+    aadharNumber: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    fatherName: {
         type: String,
         required: true
     },
@@ -24,12 +29,7 @@ const UserSchema = new Schema({
         required: true
     },
     dob: {
-        type: Date,
-        required: true
-    },
-    uid: {
         type: String,
-        unique: true,
         required: true
     },
     date: {

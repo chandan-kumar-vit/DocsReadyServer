@@ -5,7 +5,7 @@ const connectToMongo = require('./db')
 dotenv.config();
 const app = express();
 connectToMongo();
-app.use(express.json);
+app.use(express.json());
 const port = process.env.PORT || 5000;
 
 // Available routes
