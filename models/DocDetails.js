@@ -13,6 +13,11 @@ const DocDetailsSchema = new Schema({
     number: {
         type: String,
         required: true,
+
+    },
+    fileId: {
+        type: String,
+        require: true,
         unique: true
     },
     name: {
@@ -26,6 +31,14 @@ const DocDetailsSchema = new Schema({
     },
     address: {
         type: String
+    },
+    webContentLink: {
+        type: String,
+        required: true
+    },
+    webViewLink: {
+        type: String,
+        required: true
     }
 
 });
