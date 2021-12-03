@@ -10,6 +10,9 @@ const port = process.env.PORT || 5000;
 
 // Available routes
 
+app.get('/', (req, res) => {
+    res.send('Welcome')
+})
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/docs', require('./routes/docs'));
 
