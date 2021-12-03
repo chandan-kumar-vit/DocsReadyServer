@@ -19,7 +19,7 @@ router.post('/add', fetchuser, async (req, res) => {
         }
 
         // uploading file on cloud
-        const cloudOp = await uploadFile(card + "_" + req.user.id, '/home/chandan/Documents/Projects/DocsReady/server/test.jpeg');
+        const cloudOp = await uploadFile(card + "_" + req.user.id, 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fzeenews.india.com%2Fpersonal-finance%2Faadhaar-card-update-change-address-in-aadhaar-in-few-simple-steps-here-s-how-2404829.html&psig=AOvVaw1V9awKHC13b0ggax9cpJoJ&ust=1638616261120000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCID1jcW_x_QCFQAAAAAdAAAAABAD');
         if (!cloudOp.success) {
             res.status(400).send("Error while uploading file!");
         }
