@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 // Available routes
 
 app.get('/', (req, res) => {
-    res.send('Welcome')
+    res.json({ Application: "DocsReady", msg: "Server up and Running!" })
 })
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/docs', require('./routes/docs'));
