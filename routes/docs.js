@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const fetchuser = require('../middleware/fetchuser');
-const { findById } = require('../models/DocDetails');
 const DocDetails = require('../models/DocDetails');
-const { uploadFile, getFile, deleteFile } = require('../utilities/docOnDrive')
+const { uploadFile, getFile, deleteFile } = require('../utilities/docOnDrive');
+
+
 
 // ROUTE 1: [POST & log-in required] /api/docs/adddoc
 
@@ -12,14 +13,20 @@ router.post('/add', fetchuser, async (req, res) => {
     try {
 
         // getting details from form
-        const { card, number, name, dob, fatherName, address } = req.body;
+        let file;
+        const { card, number, name, dob, fatherName, address } = req.query;
         let doc = await DocDetails.findOne({ card: card, number: number });
         if (doc) {
             res.status(400).json({ error: "Credentials already exists!" })
         }
 
         // uploading file on cloud
-        const cloudOp = await uploadFile(card + "_" + req.user.id, 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fzeenews.india.com%2Fpersonal-finance%2Faadhaar-card-update-change-address-in-aadhaar-in-few-simple-steps-here-s-how-2404829.html&psig=AOvVaw1V9awKHC13b0ggax9cpJoJ&ust=1638616261120000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCID1jcW_x_QCFQAAAAAdAAAAABAD');
+        if (!req.files) {
+            res.status(400).send("Choose file to upload");
+        }
+        file = req.files.file;
+
+        const cloudOp = await uploadFile(card + "_" + req.user.id, file.data, 'text/plain');
         if (!cloudOp.success) {
             res.status(400).send("Error while uploading file!");
         }

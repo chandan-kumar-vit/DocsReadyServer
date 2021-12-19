@@ -2,7 +2,6 @@ const { google } = require('googleapis');
 const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
-const mime = require('mime-types');
 
 dotenv.config();
 
@@ -29,18 +28,20 @@ const drive = google.drive({
 
 // Function to upload a file in G-Drive
 
-const uploadFile = async (fileName, filePath) => {
+const uploadFile = async (fileName, filePath, mimeType) => {
+
     let success = false;
     try {
 
         const res = await drive.files.create({
             requestBody: {
                 name: fileName,
-                mimeType: mime.lookup(filePath)
+                mimeType: mimeType
             },
             media: {
-                mimeType: mime.lookup(filePath),
-                body: fs.createReadStream(filePath)
+                mimeType: mimeType,
+                //body: fs.createReadStream(filePath)
+                body: filePath.toString('base64')
             }
         });
         success = true;
