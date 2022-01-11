@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetchuser = require('../middleware/fetchuser');
 const DocDetails = require('../models/DocDetails');
-const { uploadFile, getFile, deleteFile } = require('../utilities/docOnDrive');
-
+const { uploadImg, downloadFile, deleteFile } = require('../utilities/docsFireBase.js')
 
 
 // ROUTE 1: [POST & log-in required] /api/docs/adddoc
@@ -26,20 +25,13 @@ router.post('/add', fetchuser, async (req, res) => {
         }
         file = req.files.file;
 
-        const cloudOp = await uploadFile(card + "_" + req.user.id, file.data, 'text/plain');
-        if (!cloudOp.success) {
-            res.status(400).send("Error while uploading file!");
-        }
-
-        //fetching links of files
-        const fileLinks = await getFile(cloudOp.id);
-
+        const cloudOp = await uploadImg(file.data, card + number);
+        const downloadLink = await downloadFile(cloudOp.storageRef);
         // writing data to DB
         doc = new DocDetails({
-            user: req.user.id, card, number, fileId: cloudOp.id, webContentLink: fileLinks.webContentLink, webViewLink: fileLinks.webViewLink
+            user: req.user.id, card, number, fireBaseRef: downloadLink.url
         });
         const savedDoc = await doc.save();
-
         res.json(savedDoc);
 
     } catch (error) {
@@ -73,7 +65,7 @@ router.delete('/delete/:id', fetchuser, async (req, res) => {
         }
 
         doc = await DocDetails.findOne({ _id: req.params.id });
-        const cloudOp = await deleteFile(doc.fileId);
+        const cloudOp = await deleteFile(doc.fireBaseRef);
         if (!cloudOp.success) {
             res.status(400).send("Error while deleting from cloud!");
         }

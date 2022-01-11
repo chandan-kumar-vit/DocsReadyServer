@@ -15,11 +15,6 @@ const DocDetailsSchema = new Schema({
         required: true,
 
     },
-    fileId: {
-        type: String,
-        require: true,
-        unique: true
-    },
     name: {
         type: String,
     },
@@ -32,14 +27,10 @@ const DocDetailsSchema = new Schema({
     address: {
         type: String
     },
-    webContentLink: {
+    fireBaseRef: {
         type: String,
         required: true
     },
-    webViewLink: {
-        type: String,
-        required: true
-    }
 
 });
 
