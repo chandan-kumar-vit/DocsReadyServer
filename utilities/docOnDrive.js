@@ -29,7 +29,7 @@ const drive = google.drive({
 // Function to upload a file in G-Drive
 
 const uploadFile = async (fileName, filePath, mimeType) => {
-
+    console.log(filePath);
     let success = false;
     try {
 
